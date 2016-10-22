@@ -1,0 +1,126 @@
+body{
+  color:#333;
+  font-family: "Microsoft YaHei";
+  background: rgba(153,153,153,.09999999999999998);
+}
+#header-wrapper{
+  background-color: rgb(238, 238, 238);
+  border-bottom: 1px solid rgb(225, 225, 225);
+}
+#printing{
+  font-size:18px;
+  color:#666;
+  background: url(../images/bg.png);
+  border-bottom: 1px solid rgb(225, 225, 225);
+  .main{
+    width:1024px;
+    margin:auto;
+    padding-top: 60px;
+    span{
+      padding: .1em 0;
+    }
+  }
+  .code {
+      text-align: left;
+      padding: 2em 0;
+      position: relative;
+      -webkit-transition: opacity .5s;
+      -moz-transition: opacity .5s;
+      -ms-transition: opacity .5s;
+      -o-transition: opacity .5s;
+      transition: opacity .5s;
+      opacity: 1;
+      filter: alpha(opacity=100);
+      overflow: visible;
+      line-height: 1.3em;
+      font-family: "Ubuntu Mono",monospace;
+      white-space: -moz-pre-wrap!important;
+      white-space: -pre-wrap;
+      white-space: -o-pre-wrap;
+      word-wrap: break-word;
+      span {
+          padding: .1em 0;
+          .return {
+              visibility: hidden;
+              outline: none!important;
+              background-color:#fff!important;
+              &:before{
+                background-color: #ffc40d!important;
+                content: '\23CE';
+                color: #fff!important;
+                padding: 0 .5em;
+              }
+              &.char-active{
+                visibility: visible;
+              }
+              &.incorrect{
+                visibility: visible;
+              }
+          }
+          .char-active {
+            color:#38cf1a;
+              -webkit-animation:bottom_flash 0.8s infinite linear;
+          }
+      }
+      .c {
+          color: #ccc!important;
+      }
+      .incorrect {
+          background-color: #e63d3d;
+          color: #fff;
+      }
+  }
+  pre{
+      display: block;
+      font-family: 'Ubuntu Mono', monospace;
+      white-space: pre;
+      color:#737373;
+  }
+  .pageing{
+     margin: 50px 0;
+     span{
+      margin-right: 50px;
+      cursor: pointer;
+     }
+  }
+  .main input{
+    background:transparent;
+    border:none;
+    position:fixed;
+    left:0;
+    top:50%;
+    &:focus{
+      background:transparent;
+      border:none;
+      outline:medium;
+      opacity:0;
+    }
+  }
+  .time{
+    position:fixed;
+    right:5%;
+    bottom:5%;
+    font-size:24px;
+    span{
+      margin-left:20px;
+    }
+    a{
+      position: relative;
+        top: 2px;
+        display:inline-block;
+        width:30px;
+        height:30px;
+        color:#38cf1a;
+    }
+  }
+}
+
+
+@-webkit-keyframes bottom_flash {
+  0%{
+    border-bottom:3px solid #40be27;
+  }
+  100%{
+    border-bottom:0;
+  }
+}
