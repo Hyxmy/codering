@@ -6,7 +6,7 @@ import React from 'react';
 var footer = React.createClass({
 	render: function(){
 		return (
-			<div className="footer-con">
+			<div className="footer">
 				 © 2016 codering.cn
 				<a className="" href="/terms">homyit.studio</a>
 				<a className="" href="">Jiangxi Normal University</a>

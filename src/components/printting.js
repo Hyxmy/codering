@@ -5,7 +5,7 @@ require('styles/header.less');
 require('styles/printing.less');
 
 import React from 'react';
-import Code from './getCode.js';
+import Code from './getCode';
 
 var codeStr = Code('https://raw.githubusercontent.com/jquery/jquery/master/src/traversing.js');
 
@@ -17,10 +17,15 @@ var typing = React.createClass({
 			page: 0,
 			items: [],
 			end: false,
+			codeIndex: 0,
+			value: "",
 		};
 	},
 	componentWillMount: function() {
 		this.nextPage();	
+	},
+	componentDidMount: function() {
+		this.refs.nameInput.focus(); 
 	},
 	nextPage: function(){
 		if (this.state.end) return;
@@ -85,6 +90,11 @@ var typing = React.createClass({
 		})
 		
 	},
+	handleChange: function(){
+		this.setState({
+			value: event.target.value,
+		});
+	},
 	getCode: function(){	
 		var items = this.state.items;
 		// console.log(this.state.lineArr["1"]);
@@ -103,23 +113,26 @@ var typing = React.createClass({
 		var codeArr = this.state.codeArr;
 		var i = 0;
 		return  (
-			<div className="main">
-				<pre>
-					{	
-						codeArr.map(function(item){
-							i++;
-							if (item == '\n') {
-								return <span className="return" key={'re'+i}>{item}</span>
-							}else{
-								return <span className="p" key={'p'+i}>{item}</span>
-							}
-							
-						})
-					}
-				</pre>
-				<div className="pageing">
-					<span onClick={this.previousPage}>上一页</span>
-					<span onClick={this.nextPage}>下一页</span>	
+			<div id="main-wrapper">
+				<div className="main">
+					<pre>
+						{	
+							codeArr.map(function(item){
+								i++;
+								if (item == '\n') {
+									return <span className="return" key={'re'+i}>{item}</span>
+								}else{
+									return <span className="p" key={'p'+i}>{item}</span>
+								}
+								
+							})
+						}
+					</pre>
+					<div className="pageing">
+						<span onClick={this.previousPage}>上一页</span>
+						<span onClick={this.nextPage}>下一页</span>	
+					</div>
+					<input type="text" size="1" value={this.state.value} onChange={this.handleChange} ref="nameInput" />
 				</div>
 			</div>
 		)

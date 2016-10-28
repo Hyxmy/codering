@@ -1,11 +1,18 @@
 import 'core-js/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/Main';
-import Header from './components/header';
-import Footer from './components/footer';
+import { Router, Route, hashHistory,IndexRoute} from 'react-router';
+import App from './components/App';
+import Home from './components/Home';
+import print from './components/printting';
 
-// Render the main component into the dom
-ReactDOM.render(<Header />, document.getElementById('header-wrapper'));
-ReactDOM.render(<App />, document.getElementById('printing'));
-ReactDOM.render(<Footer />, document.getElementById('footer'));
+
+ReactDOM.render((
+  <Router history={hashHistory}>
+    <Route path="/" component={App}>
+      <IndexRoute component={print} />
+      <Route path="print" component={print} />
+      <Route path="Home" component={Home} />
+    </Route>
+  </Router>
+), document.getElementById('con'));
