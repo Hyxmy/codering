@@ -1,0 +1,150 @@
+.index {
+	background: #fff;
+	.main{
+		width:1024px;
+		margin:auto;
+		height:640px;
+		.container{
+			position:relative;
+			top:80px;
+			animation:mid 1s linear 0s 1 alternate;
+			/* Firefox: */
+			-moz-animation:mid 1s linear 0s 1 alternate;
+			/* Safari and Chrome: */
+			-webkit-animation:mid 1s linear 0s 1 alternate;
+			/* Opera: */
+			-o-animation:mid 1s linear 0s 1 alternate;
+			animation-fill-mode:forwards;
+			span{
+				font-family: "PT Sans";
+				font-size:12px;
+			}
+			.texture{
+				display:block;
+				overflow:hidden;
+			}
+			.lesson{
+				padding:35px;
+				float:left;
+				width: 445px;
+				height: 380px;
+				overflow:hidden;
+				background:url("../images/1000336096_800.jpg");
+				background-size:cover;
+				.k{
+				    color: #0968a3;
+				}
+				.p{
+				    color: #555;;
+				}
+				.s{
+				    color: #e57a00;
+				}
+				.initial{
+				    color: #999;
+				}
+				.char-active{
+				    color: #fff;
+				    background-color: #47d42b;
+				    outline: 1px solid #40be27;
+				}
+			}
+			.intro{
+				float:right;
+				width:404px;
+				padding-left:40px;
+				.description{
+					font-family:"microsoft yahei" simhei sans-serif;
+					font-size: 21px;
+				    text-align: left;
+				    border-bottom: 1px solid #eee;
+				    padding: .5em 0;
+				    color: gray;
+				}
+				.description.last{
+				    border-bottom: none;
+				}
+				.begin-btn{
+					margin-top:100px;
+				}
+				a{
+					border:1px solid #38cf1a;
+					background:#38cf1a;
+					width:300px;
+					height:50px;
+					border-radius:4px;
+					font-family:"microsoft yahei" simhei sans-serif;
+					font-size:20px;
+					display:block;
+					text-align:center;
+					line-height:50px;
+					color:#666;
+				}
+			}    
+		
+		}
+		.learn-more{
+		    border: 1px solid #eee;
+		    border-left: none;
+		    border-right: none;
+		    margin-top: 30px;
+		    padding-bottom: 1em;
+		    margin-bottom: 0;
+		    text-align: center;
+		    min-height:1000px;
+		    position:relative;
+			animation:myfirst 0.5s linear 0s 1 alternate;
+			/* Firefox: */
+			-moz-animation:myfirst 0.5s linear 0s 1 alternate;
+			/* Safari and Chrome: */
+			-webkit-animation:myfirst 0.5s linear 0s 1 alternate;
+			/* Opera: */
+			-o-animation:myfirst 0.5s linear 0s 1 alternate;
+			animation-fill-mode:forwards;
+			button{
+				display: inline-block;
+			    margin: 0 auto;
+			    color: #888;
+			    background: #fff;
+			    padding: .5em 1em;
+			    border: 1px solid #ebebeb;
+			    border-top: none;
+			    -webkit-border-radius: 0 0 5px 5px;
+			    -moz-border-radius: 0 0 5px 5px;
+			    border-radius: 0 0 5px 5px;
+			    font-family:"microsoft yahei" simhei sans-serif;
+			    font-size:16px;
+			    cursor: pointer;
+			}
+			.container {
+				display: table;
+				width:1024px;
+
+				margin:auto;
+				margin-top:80px;
+			}
+			.row {
+				display: table-row;
+			}
+			.cell {
+				display: table-cell;
+				height: 150px;
+				width:50%;
+				padding: 1em;
+				text-align:left;
+				font-family:"microsoft yahei" simhei sans-serif;
+				
+			}
+			.cell h2{
+				font-size:19px;
+				font-weight:100;
+				color:#38cf1a;
+				margin-bottom:15px;
+			}
+			.cell div{
+				
+				color:#666;
+			}
+		}
+	}
+}
