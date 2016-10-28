@@ -10,7 +10,7 @@ import print from './components/printting';
 ReactDOM.render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
-      <IndexRoute component={print} />
+      <IndexRoute component={Home} />
       <Route path="print" component={print} />
       <Route path="Home" component={Home} />
     </Route>

@@ -16,7 +16,7 @@ const header = React.createClass({
 			<div id="header-wrapper">
 				<div className="header">
 					<div className="logo">
-						<a href="" className="index"><span className="t">coding</span>.io</a>
+						<Link to="/Home" className="lo"><span className="t">coding</span>.io</Link>
 					</div>
 					<div className="sub-nav">
 						<ul>
