@@ -14,86 +14,78 @@ body{
     width:1024px;
     margin:auto;
     padding-top: 60px;
+    text-align: left;
+    padding: 2em 0;
+    position: relative;
+    -webkit-transition: opacity .5s;
+    -moz-transition: opacity .5s;
+    -ms-transition: opacity .5s;
+    -o-transition: opacity .5s;
+    transition: opacity .5s;
+    opacity: 1;
+    filter: alpha(opacity=100);
+    overflow: visible;
+    line-height: 1.3em;
+    font-family: "Ubuntu Mono",monospace;
+    white-space: -moz-pre-wrap!important;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+    span {
+        padding: .1em 0;
+        .return {
+            visibility: hidden;
+            outline: none!important;
+            background-color:#fff!important;
+            &:before{
+              background-color: #ffc40d!important;
+              content: '\23CE';
+              color: #fff!important;
+              padding: 0 .5em;
+            }
+            &.char-active{
+              visibility: visible;
+            }
+            &.incorrect{
+              visibility: visible;
+            }
+        }
+        &.char-active {
+          color:#38cf1a;
+            -webkit-animation:bottom_flash 0.8s infinite linear;
+        }
+    }
+    .c {
+        color: #ccc!important;
+    }
     
-    span{
-      padding: .1em 0;
+    pre{
+        display: block;
+        font-family: 'Ubuntu Mono', monospace;
+        white-space: pre;
+        color:#737373;
+        
     }
-  }
-  .code {
-      text-align: left;
-      padding: 2em 0;
-      position: relative;
-      -webkit-transition: opacity .5s;
-      -moz-transition: opacity .5s;
-      -ms-transition: opacity .5s;
-      -o-transition: opacity .5s;
-      transition: opacity .5s;
-      opacity: 1;
-      filter: alpha(opacity=100);
-      overflow: visible;
-      line-height: 1.3em;
-      font-family: "Ubuntu Mono",monospace;
-      white-space: -moz-pre-wrap!important;
-      white-space: -pre-wrap;
-      white-space: -o-pre-wrap;
-      word-wrap: break-word;
-      span {
-          padding: .1em 0;
-          .return {
-              visibility: hidden;
-              outline: none!important;
-              background-color:#fff!important;
-              &:before{
-                background-color: #ffc40d!important;
-                content: '\23CE';
-                color: #fff!important;
-                padding: 0 .5em;
-              }
-              &.char-active{
-                visibility: visible;
-              }
-              &.incorrect{
-                visibility: visible;
-              }
-          }
-          .char-active {
-            color:#38cf1a;
-              -webkit-animation:bottom_flash 0.8s infinite linear;
-          }
-      }
-      .c {
-          color: #ccc!important;
-      }
-      .incorrect {
-          background-color: #e63d3d;
-          color: #fff;
-      }
-  }
-  pre{
-      display: block;
-      font-family: 'Ubuntu Mono', monospace;
-      white-space: pre;
-      color:#737373;
-  }
-  .pageing{
-     margin: 50px 0;
-     span{
-      margin-right: 50px;
-      cursor: pointer;
-     }
-  }
-  .main input{
-    background:transparent;
-    border:none;
-    position:fixed;
-    left:0;
-    top:50%;
-    &:focus{
-      background:transparent;
-      border:none;
-      outline:medium;
-      opacity:0;
+    .pageing{
+       margin: 50px 0;
+       span{
+        margin-right: 50px;
+        cursor: pointer;
+       }
     }
+    input{
+        background:transparent;
+        border:none;
+        position:fixed;
+        left:0;
+        top:50%;
+        &:focus{
+          background:transparent;
+          border:none;
+          outline:medium;
+          opacity:0;
+        }
+      }
   }
   .time{
     position:fixed;
