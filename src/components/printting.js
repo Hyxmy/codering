@@ -18,14 +18,19 @@ var typing = React.createClass({
 			items: [],
 			end: false,
 			codeIndex: 0,
-			value: "",
+			preValue: "",
+			currentValue: "",
+			start: 1
 		};
 	},
 	componentWillMount: function() {
 		this.nextPage();	
 	},
 	componentDidMount: function() {
-		this.refs.nameInput.focus(); 
+		this.refs.nameInput.focus();
+		this.refs.nameInput.onblur = function(){
+			this.refs.nameInput.focus();
+		}.bind(this); 
 	},
 	nextPage: function(){
 		if (this.state.end) return;
@@ -90,10 +95,13 @@ var typing = React.createClass({
 		})
 		
 	},
-	handleChange: function(){
+	handleChange: function(event){	
 		this.setState({
-			value: event.target.value,
+			preValue: "",
+			currentValue: event.target.value,
+			start: this.state.start + 1,
 		});
+		console.log(event.target.currentValue);
 	},
 	getCode: function(){	
 		var items = this.state.items;
@@ -111,7 +119,9 @@ var typing = React.createClass({
 	},
 	render: function(){
 		var codeArr = this.state.codeArr;
+		var start = this.state.start;
 		var i = 0;
+
 		return  (
 			<div id="main-wrapper">
 				<div className="main">
@@ -120,9 +130,9 @@ var typing = React.createClass({
 							codeArr.map(function(item){
 								i++;
 								if (item == '\n') {
-									return <span className="return" key={'re'+i}>{item}</span>
+									return <span className={start == i? "char-active return":"return"} key={'re'+i}>{item}</span>
 								}else{
-									return <span className="p" key={'p'+i}>{item}</span>
+									return <span className={start == i? "char-active p":"p"} key={'p'+i}>{item}</span>
 								}
 								
 							})
@@ -132,7 +142,7 @@ var typing = React.createClass({
 						<span onClick={this.previousPage}>上一页</span>
 						<span onClick={this.nextPage}>下一页</span>	
 					</div>
-					<input type="text" size="1" value={this.state.value} onChange={this.handleChange} ref="nameInput" />
+					<input type="text" maxLength="1" value={this.state.preValue} onChange={this.handleChange} ref="nameInput" />
 				</div>
 			</div>
 		)
