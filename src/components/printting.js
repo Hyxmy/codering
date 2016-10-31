@@ -20,7 +20,9 @@ var typing = React.createClass({
 			codeIndex: 0,
 			preValue: "",
 			currentValue: "",
-			start: 1
+			codeIndex: 0,
+			start: 0,
+			errorArr: {}
 		};
 	},
 	componentWillMount: function() {
@@ -31,6 +33,11 @@ var typing = React.createClass({
 		this.refs.nameInput.onblur = function(){
 			this.refs.nameInput.focus();
 		}.bind(this); 
+	},
+	gameStart: function(){
+		this.setState({
+			start: 1
+		})
 	},
 	nextPage: function(){
 		if (this.state.end) return;
@@ -96,12 +103,21 @@ var typing = React.createClass({
 		
 	},
 	handleChange: function(event){	
-		this.setState({
-			preValue: "",
-			currentValue: event.target.value,
-			start: this.state.start + 1,
-		});
-		console.log(event.target.currentValue);
+		console.log(event.target.value);
+		if (this.state.codeArr[this.state.codeIndex] == event.target.value) {
+			this.setState({
+				preValue: "",
+				currentValue: event.target.value,
+				codeIndex: this.state.codeIndex + 1,
+			});
+		}else{
+			var arr = this.state.errorArr;
+			arr[this.state.codeIndex] = event.target.value;
+			this.setState({
+				errorArr: arr,
+			})
+		}
+		
 	},
 	getCode: function(){	
 		var items = this.state.items;
@@ -119,8 +135,9 @@ var typing = React.createClass({
 	},
 	render: function(){
 		var codeArr = this.state.codeArr;
-		var start = this.state.start;
-		var i = 0;
+		var errorArr = this.state.errorArr;
+		var codeIndex = this.state.codeIndex;
+		var i = -1;
 
 		return  (
 			<div id="main-wrapper">
@@ -130,19 +147,26 @@ var typing = React.createClass({
 							codeArr.map(function(item){
 								i++;
 								if (item == '\n') {
-									return <span className={start == i? "char-active return":"return"} key={'re'+i}>{item}</span>
+									return <span className={codeIndex == i? errorArr[codeIndex] ? "char-active incorrect return":"char-active return":"return"} key={'re'+i}>{item}</span>
 								}else{
-									return <span className={start == i? "char-active p":"p"} key={'p'+i}>{item}</span>
+									return <span className={codeIndex == i? errorArr[codeIndex] ? "char-active incorrect p":"char-active p":"p"} key={'p'+i}>{item}</span>
 								}
 								
 							})
 						}
 					</pre>
-					<div className="pageing">
-						<span onClick={this.previousPage}>上一页</span>
-						<span onClick={this.nextPage}>下一页</span>	
+					<div className="main-footer">
+						<div className="pageing">
+							<span onClick={this.previousPage}>上一页</span>
+							<span onClick={this.nextPage}>下一页</span>	
+						</div>
+						<div className="time">
+							<span>00:00</span>
+							<span className="">开始/暂停</span>
+							<span className="">重新开始</span>
+						</div>
 					</div>
-					<input type="text" maxLength="1" value={this.state.preValue} onChange={this.handleChange} ref="nameInput" />
+					<input type="text" value={this.state.preValue} onChange={this.handleChange} ref="nameInput" />
 				</div>
 			</div>
 		)
