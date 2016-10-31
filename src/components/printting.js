@@ -20,9 +20,13 @@ var typing = React.createClass({
 			codeIndex: 0,
 			preValue: "",
 			currentValue: "",
+<<<<<<< HEAD
 			codeIndex: 0,
 			start: 0,
 			errorArr: {} 
+=======
+			start: 1
+>>>>>>> 84007d3eef521154fefa98ae84d43cad74fd6cdc
 		};
 	},
 	componentWillMount: function() {
@@ -34,11 +38,14 @@ var typing = React.createClass({
 			this.refs.nameInput.focus();
 		}.bind(this); 
 	},
+<<<<<<< HEAD
 	gameStart: function(){
 		this.setState({
 			start: 1
 		})
 	},
+=======
+>>>>>>> 84007d3eef521154fefa98ae84d43cad74fd6cdc
 	nextPage: function(){
 		if (this.state.end) return;
 		var page = this.state.page + 1;
@@ -103,6 +110,7 @@ var typing = React.createClass({
 		
 	},
 	handleChange: function(event){	
+<<<<<<< HEAD
 		console.log(event.target.value);
 		if (this.state.codeArr[this.state.codeIndex] == event.target.value) {
 			this.setState({
@@ -118,6 +126,14 @@ var typing = React.createClass({
 			})
 		}
 		
+=======
+		this.setState({
+			preValue: "",
+			currentValue: event.target.value,
+			start: this.state.start + 1,
+		});
+		console.log(event.target.currentValue);
+>>>>>>> 84007d3eef521154fefa98ae84d43cad74fd6cdc
 	},
 	getCode: function(){	
 		var items = this.state.items;
@@ -135,9 +151,14 @@ var typing = React.createClass({
 	},
 	render: function(){
 		var codeArr = this.state.codeArr;
+<<<<<<< HEAD
 		var errorArr = this.state.errorArr;
 		var codeIndex = this.state.codeIndex;
 		var i = -1;
+=======
+		var start = this.state.start;
+		var i = 0;
+>>>>>>> 84007d3eef521154fefa98ae84d43cad74fd6cdc
 
 		return  (
 			<div id="main-wrapper">
@@ -147,14 +168,21 @@ var typing = React.createClass({
 							codeArr.map(function(item){
 								i++;
 								if (item == '\n') {
+<<<<<<< HEAD
 									return <span className={codeIndex == i? errorArr[codeIndex] ? "char-active incorrect return":"char-active return":"return"} key={'re'+i}>{item}</span>
 								}else{
 									return <span className={codeIndex == i? errorArr[codeIndex] ? "char-active incorrect p":"char-active p":"p"} key={'p'+i}>{item}</span>
+=======
+									return <span className={start == i? "char-active return":"return"} key={'re'+i}>{item}</span>
+								}else{
+									return <span className={start == i? "char-active p":"p"} key={'p'+i}>{item}</span>
+>>>>>>> 84007d3eef521154fefa98ae84d43cad74fd6cdc
 								}
 								
 							})
 						}
 					</pre>
+<<<<<<< HEAD
 					<div className="main-footer">
 						<div className="pageing">
 							<span onClick={this.previousPage}>上一页</span>
@@ -167,6 +195,13 @@ var typing = React.createClass({
 						</div>
 					</div>
 					<input type="text" value={this.state.preValue} onChange={this.handleChange} ref="nameInput" />
+=======
+					<div className="pageing">
+						<span onClick={this.previousPage}>上一页</span>
+						<span onClick={this.nextPage}>下一页</span>	
+					</div>
+					<input type="text" maxLength="1" value={this.state.preValue} onChange={this.handleChange} ref="nameInput" />
+>>>>>>> 84007d3eef521154fefa98ae84d43cad74fd6cdc
 				</div>
 			</div>
 		)
