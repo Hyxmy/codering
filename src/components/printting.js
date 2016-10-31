@@ -22,7 +22,7 @@ var typing = React.createClass({
 			currentValue: "",
 			codeIndex: 0,
 			start: 0,
-			errorArr: {}
+			errorArr: {} 
 		};
 	},
 	componentWillMount: function() {
