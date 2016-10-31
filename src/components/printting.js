@@ -21,7 +21,7 @@ var typing = React.createClass({
 			preValue: "",
 			currentValue: "",
 			codeIndex: 0,
-			start: 0,
+			start: 1,
 			errorArr: {} 
 		};
 	},
@@ -29,15 +29,31 @@ var typing = React.createClass({
 		this.nextPage();	
 	},
 	componentDidMount: function() {
+		var _self = this;
 		this.refs.nameInput.focus();
 		this.refs.nameInput.onblur = function(){
-			this.refs.nameInput.focus();
-		}.bind(this); 
-	},
-	gameStart: function(){
-		this.setState({
-			start: 1
-		})
+			_self.refs.nameInput.focus();
+		}; 
+		if (this.state.start == 1) {
+			document.onkeydown = function (e){
+				var keyNum = window.event?e.keyCode: e.which;
+				if (keyNum == 13&&(_self.state.codeArr[_self.state.codeIndex] == '\n')){
+					_self.setState({
+						preValue: "",
+						currentValue: '\n',
+						codeIndex: _self.state.codeIndex + 1,
+					});
+				}
+				var nextValue = _self.state.codeArr[_self.state.codeIndex];
+				if (nextValue == '\t') {
+					_self.setState({
+						preValue: "",
+						currentValue: '\t',
+						codeIndex: _self.state.codeIndex + 1,
+					});
+				}
+			}
+		}
 	},
 	nextPage: function(){
 		if (this.state.end) return;
@@ -68,7 +84,6 @@ var typing = React.createClass({
 		}
 		if (lineArr[lineArr.length-1] < lineArr[page-1]+i) {
 			lineArr.push(lineArr[page-1]+i);
-			console.log(true);
 			this.setState({
 				lineArr: lineArr
 			})
@@ -103,7 +118,7 @@ var typing = React.createClass({
 		
 	},
 	handleChange: function(event){	
-		console.log(event.target.value);
+		// console.log(event.target.value);
 		if (this.state.codeArr[this.state.codeIndex] == event.target.value) {
 			this.setState({
 				preValue: "",
@@ -131,6 +146,12 @@ var typing = React.createClass({
 		this.setState({
 			codeArr: codeArr,
 		})
+	},
+	gameState: function(){
+
+	},
+	gameRestart: function(){
+
 	},
 	render: function(){
 		var codeArr = this.state.codeArr;
@@ -161,8 +182,8 @@ var typing = React.createClass({
 						</div>
 						<div className="time">
 							<span>00:00</span>
-							<span className="">开始/暂停</span>
-							<span className="">重新开始</span>
+							<span className="" onClick={this.gameState}>开始/暂停</span>
+							<span className="" onClick={this.gameRestart}>重新开始</span>
 						</div>
 					</div>
 					<input type="text" value={this.state.preValue} onChange={this.handleChange} ref="nameInput" />
