@@ -7,12 +7,12 @@ require('styles/printing.less');
 import React from 'react';
 import Code from './getCode';
 
-var codeStr = Code('https://raw.githubusercontent.com/jquery/jquery/master/src/traversing.js');
+var codeStr = Code('https://raw.githubusercontent.com/jiweixia233/codering/master/server.js');
 
 var typing = React.createClass({
 	getInitialState: function() {
 		return {
-			codeArr: [],
+			codeFullArr: [],
 			lineArr: [0],
 			page: 0,
 			items: [],
@@ -21,8 +21,7 @@ var typing = React.createClass({
 			preValue: "",
 			currentValue: "",
 			codeIndex: 0,
-			start: 1,
-			errorArr: {} 
+			start: false,
 		};
 	},
 	componentWillMount: function() {
@@ -33,27 +32,7 @@ var typing = React.createClass({
 		this.refs.nameInput.focus();
 		this.refs.nameInput.onblur = function(){
 			_self.refs.nameInput.focus();
-		}; 
-		if (this.state.start == 1) {
-			document.onkeydown = function (e){
-				var keyNum = window.event?e.keyCode: e.which;
-				if (keyNum == 13&&(_self.state.codeArr[_self.state.codeIndex] == '\n')){
-					_self.setState({
-						preValue: "",
-						currentValue: '\n',
-						codeIndex: _self.state.codeIndex + 1,
-					});
-				}
-				var nextValue = _self.state.codeArr[_self.state.codeIndex];
-				if (nextValue == '\t') {
-					_self.setState({
-						preValue: "",
-						currentValue: '\t',
-						codeIndex: _self.state.codeIndex + 1,
-					});
-				}
-			}
-		}
+		};	
 	},
 	nextPage: function(){
 		if (this.state.end) return;
@@ -96,12 +75,13 @@ var typing = React.createClass({
 		this.setState({
 			items: items,
 			page: page,
+			codeIndex: 0
 		},function(){
 			this.getCode();
 		});
 		
 	},
-	previousPage: function(){	
+	previousPage: function(){
 		var lineArr = this.state.lineArr;
 		var page = this.state.page;
 		if (page == 1) return;
@@ -112,30 +92,131 @@ var typing = React.createClass({
 			page: page-1,
 			items: items,
 			end: false,
+			codeIndex: 0,
 		},function(){
 			this.getCode();
-		})
+		});
 		
 	},
-	handleChange: function(event){	
-		// console.log(event.target.value);
-		if (this.state.codeArr[this.state.codeIndex] == event.target.value) {
+	skipT: function(nextValue){
+		var codeIndex = this.state.codeIndex,
+			codeFullArr = this.state.codeFullArr;
+		if (nextValue == '\t') {
+			this.setState({
+				preValue: "",
+				currentValue: '\t',
+				codeIndex: codeIndex + 1,
+			},function(){
+				this.skipT(codeFullArr[codeIndex]["code"]);
+			});
+		}else if(nextValue == '\n'){
+			this.setState({
+				preValue: "",
+				currentValue: '\n',
+				codeIndex: codeIndex + 1,
+			},function(){
+				this.skipT(codeFullArr[codeIndex]["code"]);
+			});
+		}
+	},
+	pageInit: function(){
+		this.skipT(this.state.codeFullArr[0]["code"]);
+	},
+	bind: function(){
+		var _self = this;
+		document.onkeydown = function (e){
+			var keyNum = window.event?e.keyCode: e.which,
+				codeFullArr = _self.state.codeFullArr,
+				codeIndex = _self.state.codeIndex;
+			if (keyNum == 13&&(codeFullArr[codeIndex]["code"] == '\n')){
+				_self.setState({
+					preValue: "",
+					currentValue: '\n',
+					codeIndex: codeIndex + 1,
+				});
+			}else if (keyNum == 8) {
+				if (codeFullArr[codeIndex]["erroring"]) {
+					codeFullArr[codeIndex]["back"] = true;
+					codeFullArr[codeIndex]["style"] = codeFullArr[codeIndex]["style"].replace("incorrect","");
+					codeFullArr[codeIndex]["erroring"] = false;
+					_self.setState({
+						codeFullArr: codeFullArr,
+						currentValue: codeFullArr[codeIndex]["code"]
+					})
+				}else{
+					_self.setState({
+						codeIndex: codeIndex == 0 ? codeIndex : codeIndex - 1,
+						codeFullArr: codeFullArr,
+						currentValue: codeIndex == 0 ? codeFullArr[codeIndex]["code"]:codeFullArr[codeIndex - 1]["code"]
+					})
+				}
+							
+			}
+			var nextValue = _self.state.codeFullArr[_self.state.codeIndex]["code"];
+			_self.skipT(nextValue);
+		}
+	},
+	handleChange: function(event){
+		this.bind();
+		var codeFullArr = this.state.codeFullArr,
+			codeIndex = this.state.codeIndex;
+		if (!this.state.start) this.setState({start: true});
+		if (codeFullArr[codeIndex]["errored"]) {
+			if (codeFullArr[codeIndex]["code"] == event.target.value) {
+				codeFullArr[codeIndex]["correct"] = true;
+				codeFullArr[codeIndex]["back"] = false;
+			}
 			this.setState({
 				preValue: "",
 				currentValue: event.target.value,
 				codeIndex: this.state.codeIndex + 1,
+				codeFullArr: codeFullArr
 			});
+			
 		}else{
-			var arr = this.state.errorArr;
-			arr[this.state.codeIndex] = event.target.value;
-			this.setState({
-				errorArr: arr,
-			})
+			if (codeFullArr[codeIndex]["code"] == event.target.value){
+				this.setState({
+					preValue: "",
+					currentValue: event.target.value,
+					codeIndex: this.state.codeIndex + 1,
+					codeFullArr: codeFullArr
+				});
+			}else{
+				var arr = this.state.codeFullArr;
+				arr[this.state.codeIndex]["errored"] = true;
+				arr[this.state.codeIndex]["erroring"] = true;
+				arr[this.state.codeIndex]["style"] += " incorrect";
+				this.setState({
+					codeFullArr: arr
+				})	
+			}
+				
 		}
+			
+	},
+	AddCodeStyle: function(codeArr){
+		var note = false,codeFullArr = [];
+		for (var i = 0; i < codeArr.length; i++) {
+			codeFullArr[i] = [];
+			codeFullArr[i]["code"] = codeArr[i];
+			codeFullArr[i]["errored"] = false;
+			codeFullArr[i]["erroring"] = false;
+			codeFullArr[i]["correct"] = false;
+			codeFullArr[i]["back"] = false;
+			if (codeArr[i] == "/" && codeArr[i+1]=="/") note = true;
+			else if(codeArr[i] == "\n"){
+				note = false;
+				codeFullArr[i]["style"] = "return";
+			}else{
+				codeFullArr[i]["style"] = "p";
+			}
+			if (note) codeFullArr[i]["style"] = " note";
+		}
+		
+		return codeFullArr;
 	},
 	getCode: function(){	
 		var items = this.state.items;
-		// console.log(this.state.lineArr["1"]);
 		var codeArr = [];
 		for(var v1 of items){
 			for(var v2 of v1.split("")){
@@ -143,35 +224,48 @@ var typing = React.createClass({
 			}
 			codeArr.push('\n');
 		}
+		var codeFullArr =  this.AddCodeStyle(codeArr);
 		this.setState({
-			codeArr: codeArr,
-		})
+			codeFullArr: codeFullArr,
+		},function(){
+			this.pageInit();
+		});
 	},
 	gameState: function(){
+		this.setState({
+			start: !this.state.start
+		})
+
 
 	},
 	gameRestart: function(){
 
 	},
 	render: function(){
-		var codeArr = this.state.codeArr;
-		var errorArr = this.state.errorArr;
+		var codeFullArr = this.state.codeFullArr;
 		var codeIndex = this.state.codeIndex;
 		var i = -1;
 
 		return  (
 			<div id="main-wrapper">
 				<div className="main">
+					<div className="mheader">
+						<div className="toggle">
+							<input type="checkbox" />
+							<span className="button"></span>
+							<span className="label">+</span>
+						</div>
+						<div className="toggle">
+							<input type="checkbox"/>
+							<span className="button"></span>
+							<span className="label">–</span>
+						</div>
+					</div>
 					<pre>
 						{	
-							codeArr.map(function(item){
+							codeFullArr.map(function(item){
 								i++;
-								if (item == '\n') {
-									return <span className={codeIndex == i? errorArr[codeIndex] ? "char-active incorrect return":"char-active return":"return"} key={'re'+i}>{item}</span>
-								}else{
-									return <span className={codeIndex == i? errorArr[codeIndex] ? "char-active incorrect p":"char-active p":"p"} key={'p'+i}>{item}</span>
-								}							
-								
+								return <span className={codeIndex == i? "char-active " + codeFullArr[i]["style"]:codeFullArr[i]["style"]} key={'re'+i}>{item["code"]}</span>
 							})
 						}
 					</pre>
@@ -180,10 +274,19 @@ var typing = React.createClass({
 							<span onClick={this.previousPage}>上一页</span>
 							<span onClick={this.nextPage}>下一页</span>	
 						</div>
+						<div className="select">
+							<select name="line" id="">
+								<option value="25">25</option>
+								<option value="50">25</option>
+								<option value="70">25</option>
+								<option value="100">25</option>
+								<option value="125">25</option>
+							</select>
+						</div>
 						<div className="time">
 							<span>00:00</span>
-							<span className="" onClick={this.gameState}>开始/暂停</span>
-							<span className="" onClick={this.gameRestart}>重新开始</span>
+							<span>开始/暂停</span><span className="" onClick={this.gameState}><img src={this.state.start?"images/pause.svg":"images/play.svg"} alt=""/></span>
+							<span>重新开始</span><span className="" onClick={this.gameRestart}><img src="images/spinner.svg" alt=""/></span>
 						</div>
 					</div>
 					<input type="text" value={this.state.preValue} onChange={this.handleChange} ref="nameInput" />
