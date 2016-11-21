@@ -6,9 +6,13 @@ require('styles/printing.less');
 
 import React from 'react';
 import Code from './getCode';
+var Link = Code("http://ty.codering.cn/index.php/Home/Index/sendData");
+// console.log(Link);
+var codeStr = Code(Link);
 
-var codeStr = Code('https://raw.githubusercontent.com/jiweixia233/codering/master/server.js');
+var RegExpLink = function(){
 
+}
 var typing = React.createClass({
 	getInitialState: function() {
 		return {
@@ -22,10 +26,11 @@ var typing = React.createClass({
 			currentValue: "",
 			codeIndex: 0,
 			start: false,
+			fontSize: "18"
 		};
 	},
 	componentWillMount: function() {
-		this.nextPage();	
+		this.nextPage();
 	},
 	componentDidMount: function() {
 		var _self = this;
@@ -194,6 +199,21 @@ var typing = React.createClass({
 		}
 			
 	},
+	handleCheckedChange: function(e){
+		alert(e);
+		var fontSize = this.state.fontSize;
+		if (boolean) {
+			document.querySelector("pre").style.fontSize = fontSize + 1 + "px";
+			this.setState({
+				fontSize: fontSize + 1,
+			})
+		}else{
+			document.querySelector("pre").style.fontSize = fontSize - 1 + "px";
+			this.setState({
+				fontSize: fontSize - 1,
+			})
+		}
+	},
 	AddCodeStyle: function(codeArr){
 		var note = false,codeFullArr = [];
 		for (var i = 0; i < codeArr.length; i++) {
@@ -251,12 +271,12 @@ var typing = React.createClass({
 				<div className="main">
 					<div className="mheader">
 						<div className="toggle">
-							<input type="checkbox" />
+							<input type="checkbox" onChange={this.handleCheckedChange(true)}/>
 							<span className="button"></span>
 							<span className="label">+</span>
 						</div>
 						<div className="toggle">
-							<input type="checkbox"/>
+							<input type="checkbox" onChange={this.handleCheckedChange(false)}/>
 							<span className="button"></span>
 							<span className="label">–</span>
 						</div>

@@ -10,6 +10,9 @@ const header = React.createClass({
 			login: false
 		});
 	},
+	handleLogin: function(){
+		
+	},
 	render: function(){
 		var state = this.state;
 		return (
@@ -37,7 +40,7 @@ const header = React.createClass({
 										</span>
 									</div>
 									<div className="NewComer">
-										<a className="popOutBtn signin" href="">登录/注册</a>
+										<a className="popOutBtn signin" onClick={this.handleLogin}>登录/注册</a>
 									</div>
 								</div>
 							</li>

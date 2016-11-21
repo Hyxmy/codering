@@ -8,7 +8,7 @@ var footer = React.createClass({
 		return (
 			<div className="footer">
 				 © 2016 codering.cn
-				<a className="" href="/terms">homyit.studio</a>
+				<a className="" href="">homyit.studio</a>
 				<a className="" href="">Jiangxi Normal University</a>
 				<a href="">huax</a>
 				<span className="spacer">|</span>
