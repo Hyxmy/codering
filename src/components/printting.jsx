@@ -200,19 +200,7 @@ var typing = React.createClass({
 			
 	},
 	handleCheckedChange: function(e){
-		alert(e);
-		var fontSize = this.state.fontSize;
-		if (boolean) {
-			document.querySelector("pre").style.fontSize = fontSize + 1 + "px";
-			this.setState({
-				fontSize: fontSize + 1,
-			})
-		}else{
-			document.querySelector("pre").style.fontSize = fontSize - 1 + "px";
-			this.setState({
-				fontSize: fontSize - 1,
-			})
-		}
+		
 	},
 	AddCodeStyle: function(codeArr){
 		var note = false,codeFullArr = [];
