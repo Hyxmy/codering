@@ -4,15 +4,14 @@ require('styles/reset.less');
 require('styles/header.less');
 require('styles/printing.less');
 
+import Layer from 'react-layer';
 import React from 'react';
 import Code from './getCode';
 var Link = Code("http://ty.codering.cn/index.php/Home/Index/sendData");
 // console.log(Link);
 var codeStr = Code(Link);
 
-var RegExpLink = function(){
 
-}
 var typing = React.createClass({
 	getInitialState: function() {
 		return {
@@ -30,6 +29,12 @@ var typing = React.createClass({
 		};
 	},
 	componentWillMount: function() {
+		var layer = new Layer(document.body, function renderModal(){
+		        return (
+		          <h1>hello world</h1>
+		        );
+		      })
+		layer.render();	
 		this.nextPage();
 	},
 	componentDidMount: function() {
@@ -37,7 +42,8 @@ var typing = React.createClass({
 		this.refs.nameInput.focus();
 		this.refs.nameInput.onblur = function(){
 			_self.refs.nameInput.focus();
-		};	
+		};
+
 	},
 	nextPage: function(){
 		if (this.state.end) return;
