@@ -1,18 +1,17 @@
 require('sources/bower_components/bower-pt-sans/styles/pt_sans.css')
-require('sources/bower_components/ubuntu-mono-powerline/font.css')
+require('styles/ubuntu-mono-font.less')
 require('styles/reset.less');
 require('styles/header.less');
 require('styles/printing.less');
 
+import Layer from 'react-layer';
 import React from 'react';
 import Code from './getCode';
 var Link = Code("http://ty.codering.cn/index.php/Home/Index/sendData");
 // console.log(Link);
 var codeStr = Code(Link);
 
-var RegExpLink = function(){
 
-}
 var typing = React.createClass({
 	getInitialState: function() {
 		return {
@@ -30,6 +29,12 @@ var typing = React.createClass({
 		};
 	},
 	componentWillMount: function() {
+		var layer = new Layer(document.body, function renderModal(){
+		        return (
+		          <h1>hello world</h1>
+		        );
+		      })
+		layer.render();	
 		this.nextPage();
 	},
 	componentDidMount: function() {
@@ -37,7 +42,8 @@ var typing = React.createClass({
 		this.refs.nameInput.focus();
 		this.refs.nameInput.onblur = function(){
 			_self.refs.nameInput.focus();
-		};	
+		};
+
 	},
 	nextPage: function(){
 		if (this.state.end) return;
@@ -200,19 +206,7 @@ var typing = React.createClass({
 			
 	},
 	handleCheckedChange: function(e){
-		alert(e);
-		var fontSize = this.state.fontSize;
-		if (boolean) {
-			document.querySelector("pre").style.fontSize = fontSize + 1 + "px";
-			this.setState({
-				fontSize: fontSize + 1,
-			})
-		}else{
-			document.querySelector("pre").style.fontSize = fontSize - 1 + "px";
-			this.setState({
-				fontSize: fontSize - 1,
-			})
-		}
+		
 	},
 	AddCodeStyle: function(codeArr){
 		var note = false,codeFullArr = [];
