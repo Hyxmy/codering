@@ -1,5 +1,5 @@
 require('sources/bower_components/bower-pt-sans/styles/pt_sans.css')
-require('sources/bower_components/ubuntu-mono-powerline/font.css')
+require('styles/ubuntu-mono-font.less')
 require('styles/reset.less');
 require('styles/header.less');
 require('styles/printing.less');
