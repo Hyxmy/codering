@@ -14,6 +14,8 @@
 - bower install
 
 
+### 输入npm run start 即可查看效果
+
 
 
 
