@@ -2,54 +2,67 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link } from 'react-router';
 
+import ModalsBasic from './modalsBasic';
 
-const header = React.createClass({
+const Header = React.createClass({
 	getInitialState: function() {
 		return ({
 			login: false
 		});
 	},
+    componentDidMount: function(){
+        window.onscroll = function(){
+            var t = document.documentElement.scrollTop || document.body.scrollTop;
+            if (t > 0) {
+                var reg = new RegExp('(\\s|^)' + 'no-bg' + '(\\s|$)');
+                document.getElementById("header").className = document.getElementById("header").className.replace(reg, ' ');
+            } else {
+                document.getElementById("header").className += "no-bg";
+            }
+        }
+        var elemId = document.getElementById("s-nav");
+        var links = elemId.getElementsByTagName("li");
+        for (var i = 0; i < links.length; i++) {
+            links[i].onclick = function() {
+                for (var n = 0; n < links.length; n++) {
+                    links[n].className = "";
+                    this.className = "active";
+                    this.blur();
+                }
+            }
+        }
+
+    },
 	handleLogin: function(){
 		
 	},
 	render: function(){
 		var state = this.state;
 		return (
-			<div id="header-wrapper">
+			<div className="header-wrapper " id="header">
 				<div className="header">
-					<div className="logo">
-						<Link to="/Home" className="lo"><span className="t">coding</span>.io</Link>
-					</div>
-					<div className="sub-nav">
-						<ul>
-							<li>
-								<Link to="/Home">首页</Link>
-							</li>
-							<li>
-								<Link to="/print">打字页</Link>
-							</li>
-							<li>
-								<div className={state.login?"userwrapper":"userWrapper signin"}>
-									<div className="user">
-										<span className="user popOutBtn">
-											<a href=""><span className="username">jiweixia66</span></a>
-										</span>
-										<span className="bubble">
-											<a className="popOutBtn signout" href="">登出</a>
-										</span>
-									</div>
-									<div className="NewComer">
-										<a className="popOutBtn signin" onClick={this.handleLogin}>登录/注册</a>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-	  			</div>			
+					<Link to="/Home" className="logo"><img src="../images/logo-green.png"/></Link>
+					<ul className="sub-nav" id="s-nav">
+						<li className="active">
+							<Link to="/Home">首页</Link>
+                            <span className="nav-bar"></span>
+						</li>
+						<li className="">
+							<Link to="/print">选择语言</Link>
+						</li>
+					</ul>
+                    <div className="user-nav">
+                        <Link to=""><img src="../images/light-man.svg"/></Link>
+                        <span>
+                            <Link to="/login" onclick={this.handleLogin}>登入</Link>
+                            <Link to="">注册</Link>
+                        </span>
+                    </div>
+	  			</div>
 			</div>
 			
   		);
 	}
 });
 
-export default header;
+export default Header;
